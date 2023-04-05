@@ -23,3 +23,5 @@ const dotsColor = Color(0xffFE9595);
 
 const gradientColorDark = Color(0xffFE9595);
 const gradientColorLight = Color(0xffFFDCD8);
+
+const facebookLogoColor = Color(0xff0067DB);

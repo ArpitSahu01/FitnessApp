@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gfg_project/screens/login_screen.dart';
 import 'package:gfg_project/screens/onboarding_screen.dart';
 
 void main(){
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        home: OnBoaridngScreen(),
+        home: LoginScreen(),
     );
   }
 }

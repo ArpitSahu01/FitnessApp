@@ -61,7 +61,7 @@ class _OnBoaridngScreenState extends State<OnBoaridngScreen> {
                   Container(
                     height: 60,
                     width: 60,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: LinearGradient(
                         begin: Alignment.centerLeft,

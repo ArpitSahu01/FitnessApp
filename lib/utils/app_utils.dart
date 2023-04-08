@@ -17,6 +17,7 @@ final kPoppinsBold = GoogleFonts.poppins(
   fontWeight: FontWeight.w400,
 );
 
+const bgColor = Color(0xffffffff);
 const TextBlackColor = Color(0xff000000);
 final LightBlackColor = Color(0xff000000).withOpacity(0.38);
 const dotsColor = Color(0xffFE9595);
@@ -28,3 +29,6 @@ const facebookLogoColor = Color(0xff0067DB);
 
 const textFieldColor = Color(0xffF1F2F2);
 const textFieldIconColor = Color(0xff7B6F72);
+
+const textSplashColor1 = Color(0xff000000);
+const textSplashColor2 = Color(0xff5530BD);

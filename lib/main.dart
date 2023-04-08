@@ -4,6 +4,7 @@ import 'package:gfg_project/screens/login_screen.dart';
 import 'package:gfg_project/screens/login_screen_main.dart';
 import 'package:gfg_project/screens/onboarding_screen.dart';
 import 'package:gfg_project/screens/signUp_screen.dart';
+import 'package:gfg_project/screens/splash_screen.dart';
 
 void main(){
 runApp(MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        home: LoginScreenMain(),
+        home: SplashScreen(),
     );
   }
 }

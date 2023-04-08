@@ -25,3 +25,6 @@ const gradientColorDark = Color(0xffFE9595);
 const gradientColorLight = Color(0xffFFDCD8);
 
 const facebookLogoColor = Color(0xff0067DB);
+
+const textFieldColor = Color(0xffF1F2F2);
+const textFieldIconColor = Color(0xff7B6F72);

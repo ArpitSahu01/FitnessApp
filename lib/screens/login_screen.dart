@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:gfg_project/utils/extensions.dart';
 
 import '../utils/app_utils.dart';
+import '../widgets/cutom_divider.dart';
+import '../widgets/sign_in_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -92,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
               fontSize: 12.0.sp,
               color: LightBlackColor.withOpacity(0.6),
             ),),
-            Text("Register",style: kPoppinsMedium.copyWith(
+            Text(" Register",style: kPoppinsMedium.copyWith(
               fontSize: 12.0.sp,
               color: gradientColorDark,
             ),),
@@ -103,91 +105,3 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-
-
-
-class SignInButton extends StatelessWidget {
-  final String title;
-  final String? urlPath;
-  final Color color;
-  final Color foregroundColor;
-  final Gradient? gradient;
-
-  const SignInButton(
-      {required this.title,
-       this.urlPath,
-      required this.color,
-      this.foregroundColor = TextBlackColor,
-      this.gradient,
-      Key? key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 80.0.wp,
-      height: 6.0.hp,
-      decoration: BoxDecoration(
-          gradient: gradient,
-          color: color,
-          border: color == Colors.white
-              ? Border.all(color: LightBlackColor.withOpacity(0.3))
-              : null,
-          borderRadius: BorderRadius.all(Radius.circular(20.0.wp))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          if(urlPath != null)
-          Image.asset(
-            urlPath!,
-            fit: BoxFit.cover,
-          ),
-          Padding(
-            padding: urlPath == null ? const EdgeInsets.all(0): EdgeInsets.only(right: 10.0.wp),
-            child: Text(
-              title,
-              style: kPoppinsMedium.copyWith(
-                fontSize: 12.0.sp,
-                color: foregroundColor,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class CustomDivider extends StatelessWidget {
-  const CustomDivider({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          height: 0.1.hp,
-          width: 32.0.wp,
-          color: LightBlackColor.withOpacity(0.3),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 3.0.wp),
-          child: Text(
-            "or",
-            style: kPoppinsMedium.copyWith(
-              fontSize: 12.0.sp,
-              color: LightBlackColor.withOpacity(0.6),
-            ),
-          ),
-        ),
-        Container(
-          height: 0.1.hp,
-          width: 32.0.wp,
-          color: LightBlackColor.withOpacity(0.3),
-        ),
-      ],
-    );
-  }
-}

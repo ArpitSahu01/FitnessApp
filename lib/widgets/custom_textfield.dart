@@ -24,20 +24,17 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  bool isVisible = true;
+  bool isVisible = false;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 80.0.wp,
-      height: 6.0.hp,
-      padding: EdgeInsets.symmetric(horizontal: 1.0.wp,vertical: 0.1.hp),
-      decoration: BoxDecoration(
-          color: textFieldColor,
-          borderRadius: BorderRadius.circular(4.0.wp)
-      ),      child: TextFormField(
-      obscureText: isVisible,
+      child: TextFormField(
+      obscureText: widget.isSuffixIcon ? !isVisible:false,
       decoration: InputDecoration(
+        filled: true,
+        fillColor: textFieldColor,
         border: InputBorder.none,
         enabledBorder: InputBorder.none,
         disabledBorder: InputBorder.none,
@@ -60,7 +57,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       ),
       controller: widget.textEditingController,
       validator: widget.validator,
-    ),
+      ),
     );
   }
 }

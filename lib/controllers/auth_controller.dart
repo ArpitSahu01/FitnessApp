@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gfg_project/routes/routes.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthController extends GetxController{
 
@@ -77,7 +78,38 @@ class AuthController extends GetxController{
 
   signOut() async{
     await auth.signOut();
+    await GoogleSignIn().signOut();
   }
-  
+
+  googleSignIn() async{
+
+    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: gAuth.accessToken,
+      idToken: gAuth.idToken,
+    );
+
+    try{
+      auth.signInWithCredential(credential);
+    }catch (e){
+      Get.snackbar(
+        "About Google Authentication",
+        "Error in google signIn",
+        backgroundColor: Colors.redAccent,
+        snackPosition: SnackPosition.BOTTOM,
+        titleText: const Text("Account failed to login with google",
+          style: TextStyle(color: Colors.white),
+        ),
+        messageText: Text(
+          e.toString(),
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      );
+    }
+
+  }
 
 }

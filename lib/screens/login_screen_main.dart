@@ -18,6 +18,7 @@ class LoginScreenMain extends StatefulWidget {
 
 class _LoginScreenMainState extends State<LoginScreenMain> {
 
+  bool isLoading = false;
   final  _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -64,7 +65,7 @@ class _LoginScreenMainState extends State<LoginScreenMain> {
                   return null;
                 },),
                 SizedBox(height: 2.0.hp,),
-                 AuthController.instance.isLoading.value ? CircularProgressIndicator() : SignInButton(
+                 isLoading ? CircularProgressIndicator() : SignInButton(
                   title: "SignIn",
                   gradient: LinearGradient(
                       begin: Alignment.bottomCenter,
@@ -79,11 +80,11 @@ class _LoginScreenMainState extends State<LoginScreenMain> {
                         final email = _emailController.text.trim();
                         final password = _passwordController.text.trim();
                         setState(() {
-                          AuthController.instance.isLoading.value = true;
+                          isLoading = true;
                         });
                         await AuthController.instance.signIn(email, password);
                         setState(() {
-                          AuthController.instance.isLoading.value = false;
+                          isLoading = false;
                         });
                     }
                   },

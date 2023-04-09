@@ -2,11 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gfg_project/models/user_model.dart';
 import 'package:gfg_project/routes/routes.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class AuthController extends GetxController{
-
+class AuthController extends GetxController {
   Rx<bool> isLoading = false.obs;
 
   // making authcontroller globally accessible
@@ -16,6 +17,8 @@ class AuthController extends GetxController{
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
+  final firestore = FirebaseFirestore.instance;
+
   @override
   void onReady() {
     super.onReady();
@@ -24,25 +27,27 @@ class AuthController extends GetxController{
     ever(_user, _initialScreen);
   }
 
-  _initialScreen(User? user){
-    if(user == null){
+  _initialScreen(User? user) {
+    if (user == null) {
       Get.offAllNamed(RoutesClass.getLoginScreen());
-    }else{
+    } else {
       Get.offAllNamed(RoutesClass.getHomeRoute());
     }
-
   }
 
-  register(String email, String password, String userName) async{
-    try{
-      await auth.createUserWithEmailAndPassword(email: email, password: password);
-    }catch(e){
+  register(String email, String password, String userName) async {
+    try {
+      final userCredentials = await auth.createUserWithEmailAndPassword(email: email, password: password);
+      if(userCredentials.user != null)
+      await createUser(UserModel(email: userCredentials.user!.email!, userName: userName,id: userCredentials.user!.uid));
+    } catch (e) {
       Get.snackbar(
         "About User",
         "User Message",
         backgroundColor: Colors.redAccent,
         snackPosition: SnackPosition.BOTTOM,
-        titleText: const Text("Account creation failed",
+        titleText: const Text(
+          "Account creation failed",
           style: TextStyle(color: Colors.white),
         ),
         messageText: Text(
@@ -55,16 +60,17 @@ class AuthController extends GetxController{
     }
   }
 
-  signIn(String email,String password) async{
-    try{
+  signIn(String email, String password) async {
+    try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
-    }catch (e){
+    } catch (e) {
       Get.snackbar(
         "About Login",
         "Login Message",
         backgroundColor: Colors.redAccent,
         snackPosition: SnackPosition.BOTTOM,
-        titleText: const Text("Login failed",
+        titleText: const Text(
+          "Login failed",
           style: TextStyle(color: Colors.white),
         ),
         messageText: Text(
@@ -77,13 +83,12 @@ class AuthController extends GetxController{
     }
   }
 
-  signOut() async{
+  signOut() async {
     await auth.signOut();
     await GoogleSignIn().signOut();
   }
 
-  googleSignIn() async{
-
+  googleSignIn() async {
     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication gAuth = await gUser!.authentication;
     final credential = GoogleAuthProvider.credential(
@@ -91,15 +96,16 @@ class AuthController extends GetxController{
       idToken: gAuth.idToken,
     );
 
-    try{
+    try {
       auth.signInWithCredential(credential);
-    }catch (e){
+    } catch (e) {
       Get.snackbar(
         "About Google Authentication",
         "Error in google signIn",
         backgroundColor: Colors.redAccent,
         snackPosition: SnackPosition.BOTTOM,
-        titleText: const Text("Account failed to login with google",
+        titleText: const Text(
+          "Account failed to login with google",
           style: TextStyle(color: Colors.white),
         ),
         messageText: Text(
@@ -110,22 +116,23 @@ class AuthController extends GetxController{
         ),
       );
     }
-
   }
 
-  facebookSignIn() async{
-    try{
+  facebookSignIn() async {
+    try {
       final facebookLoginResult = await FacebookAuth.instance.login();
       final userData = await FacebookAuth.instance.getUserData();
-      final credential = FacebookAuthProvider.credential(facebookLoginResult.accessToken!.token);
+      final credential = FacebookAuthProvider.credential(
+          facebookLoginResult.accessToken!.token);
       await auth.signInWithCredential(credential);
-    }catch (e){
+    } catch (e) {
       Get.snackbar(
         "About Facebook Authentication",
         "Error in facebook signIn",
         backgroundColor: Colors.redAccent,
         snackPosition: SnackPosition.BOTTOM,
-        titleText: const Text("Account failed to login with facebook",
+        titleText: const Text(
+          "Account failed to login with facebook",
           style: TextStyle(color: Colors.white),
         ),
         messageText: Text(
@@ -136,7 +143,17 @@ class AuthController extends GetxController{
         ),
       );
     }
-
   }
 
+
+  createUser(UserModel user) async {
+    await firestore
+        .collection("Users")
+        .doc(_user.value!.uid)
+        .set(user.toJson())
+        .whenComplete(
+          () => Get.snackbar("Success", "Your account has been created",
+              snackPosition: SnackPosition.BOTTOM),
+        );
+  }
 }

@@ -18,6 +18,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
 
+  bool isLoading = false;
   final _passwordEditingController = TextEditingController();
   final _emailController = TextEditingController();
   final _userNameController = TextEditingController();
@@ -126,7 +127,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 2.0.hp,
               ),
 
-               AuthController.instance.isLoading.value ? CircularProgressIndicator():SignInButton(
+               isLoading ? CircularProgressIndicator():SignInButton(
                 title: "Register",
                 color: facebookLogoColor,
                 gradient: LinearGradient(
@@ -143,11 +144,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     final email = _emailController.text.trim();
                     final password = _passwordEditingController.text.trim();
                     setState(() {
-                      AuthController.instance.isLoading.value = true;
+                      isLoading = true;
                     });
                     await AuthController.instance.register(email, password, userName);
                     setState(() {
-                      AuthController.instance.isLoading.value = false;
+                      isLoading = false;
                     });
                   }
                 },

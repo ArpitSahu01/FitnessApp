@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:gfg_project/controllers/auth_controller.dart';
 import 'package:gfg_project/routes/routes.dart';
 import 'package:gfg_project/utils/extensions.dart';
 import 'package:get/get.dart';
@@ -18,6 +19,8 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
 
   final _passwordEditingController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _userNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -62,6 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 4.0.hp,
               ),
                CustomTextField(
+                 textEditingController: _userNameController,
                  hintText: "Name",
                  icon: Icons.supervisor_account,
                  validator: (value){
@@ -75,6 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 2.0.hp,
               ),
               CustomTextField(
+                textEditingController: _emailController,
                 hintText: "Email ID",
                 icon: Icons.email,
                 validator: (value){
@@ -121,7 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 2.0.hp,
               ),
 
-               SignInButton(
+               AuthController.instance.isLoading.value ? CircularProgressIndicator():SignInButton(
                 title: "Register",
                 color: facebookLogoColor,
                 gradient: LinearGradient(
@@ -132,9 +137,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       gradientColorDark,
                     ]
                 ),
-                onTap: (){
+                onTap: () async{
                   if(_formKey.currentState!.validate()){
-
+                    final userName = _userNameController.text.trim();
+                    final email = _emailController.text.trim();
+                    final password = _passwordEditingController.text.trim();
+                    setState(() {
+                      AuthController.instance.isLoading.value = true;
+                    });
+                    await AuthController.instance.register(email, password, userName);
+                    setState(() {
+                      AuthController.instance.isLoading.value = false;
+                    });
                   }
                 },
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gfg_project/controllers/auth_controller.dart';
 import 'package:gfg_project/routes/routes.dart';
 import 'package:gfg_project/screens/signUp_screen.dart';
 import 'package:gfg_project/utils/app_utils.dart';
@@ -18,6 +19,9 @@ class LoginScreenMain extends StatefulWidget {
 class _LoginScreenMainState extends State<LoginScreenMain> {
 
   final  _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +41,10 @@ class _LoginScreenMainState extends State<LoginScreenMain> {
                   fontSize: 6.0.wp,
                 ),),
                 SizedBox(height: 4.0.hp,),
-                CustomTextField(hintText: "Emai", icon: Icons.email,validator: (value){
+                CustomTextField(
+                  textEditingController: _emailController,
+                  hintText: "Emai",
+                  icon: Icons.email,validator: (value){
                   final bool _isEmailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value!);
                   if(!_isEmailValid){
                     return "Please enter a valid email";
@@ -45,7 +52,10 @@ class _LoginScreenMainState extends State<LoginScreenMain> {
                   return null;
                 },),
                 SizedBox(height: 2.0.hp,),
-                CustomTextField(hintText: "Password", icon: Icons.lock,isSuffixIcon: true,validator: (value){
+                CustomTextField(
+                  textEditingController: _passwordController,
+                  hintText: "Password",
+                  icon: Icons.lock,isSuffixIcon: true,validator: (value){
                   if(value == null || value.trim().isEmpty){
                     return "Enter a valid password";
                   }else if(value.length<= 6){
@@ -54,7 +64,7 @@ class _LoginScreenMainState extends State<LoginScreenMain> {
                   return null;
                 },),
                 SizedBox(height: 2.0.hp,),
-                 SignInButton(
+                 AuthController.instance.isLoading.value ? CircularProgressIndicator() : SignInButton(
                   title: "SignIn",
                   gradient: LinearGradient(
                       begin: Alignment.bottomCenter,
@@ -64,9 +74,17 @@ class _LoginScreenMainState extends State<LoginScreenMain> {
                         gradientColorDark,
                       ]
                   ),
-                  onTap: (){
-                    if(_formKey.currentState!.validate()){
-
+                  onTap: () async{
+                    if(_formKey.currentState!.validate()) {
+                        final email = _emailController.text.trim();
+                        final password = _passwordController.text.trim();
+                        setState(() {
+                          AuthController.instance.isLoading.value = true;
+                        });
+                        await AuthController.instance.signIn(email, password);
+                        setState(() {
+                          AuthController.instance.isLoading.value = false;
+                        });
                     }
                   },
                 ),
@@ -105,7 +123,6 @@ class _LoginScreenMainState extends State<LoginScreenMain> {
                       ),),
                     ),
                   ],)
-
               ],
             ),
           ),

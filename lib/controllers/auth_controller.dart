@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:gfg_project/routes/routes.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -99,6 +100,32 @@ class AuthController extends GetxController{
         backgroundColor: Colors.redAccent,
         snackPosition: SnackPosition.BOTTOM,
         titleText: const Text("Account failed to login with google",
+          style: TextStyle(color: Colors.white),
+        ),
+        messageText: Text(
+          e.toString(),
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      );
+    }
+
+  }
+
+  facebookSignIn() async{
+    try{
+      final facebookLoginResult = await FacebookAuth.instance.login();
+      final userData = await FacebookAuth.instance.getUserData();
+      final credential = FacebookAuthProvider.credential(facebookLoginResult.accessToken!.token);
+      await auth.signInWithCredential(credential);
+    }catch (e){
+      Get.snackbar(
+        "About Facebook Authentication",
+        "Error in facebook signIn",
+        backgroundColor: Colors.redAccent,
+        snackPosition: SnackPosition.BOTTOM,
+        titleText: const Text("Account failed to login with facebook",
           style: TextStyle(color: Colors.white),
         ),
         messageText: Text(

@@ -105,7 +105,12 @@ class _LoginScreenMainState extends State<LoginScreenMain> {
                         child: CustomLogoContianer(imageUrl: "assets/login/google_logo.png",),
                     ),
                     SizedBox(width:6.0.wp,),
-                    CustomLogoContianer(imageUrl: "assets/login/facebook_logo_2.png",)
+                    GestureDetector(
+                        onTap: (){
+                          AuthController.instance.facebookSignIn();
+                        },
+                        child: CustomLogoContianer(imageUrl: "assets/login/facebook_logo_2.png",),
+                    ),
                   ],
                 ),
                 SizedBox(height: 2.0.hp,),

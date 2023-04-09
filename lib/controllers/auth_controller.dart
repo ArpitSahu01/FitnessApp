@@ -38,8 +38,9 @@ class AuthController extends GetxController {
   register(String email, String password, String userName) async {
     try {
       final userCredentials = await auth.createUserWithEmailAndPassword(email: email, password: password);
-      if(userCredentials.user != null)
-      await createUser(UserModel(email: userCredentials.user!.email!, userName: userName,id: userCredentials.user!.uid));
+      if(userCredentials.user != null) {
+        await createUser(UserModel(email: userCredentials.user!.email!, userName: userName,id: userCredentials.user!.uid));
+      }
     } catch (e) {
       Get.snackbar(
         "About User",
@@ -97,7 +98,10 @@ class AuthController extends GetxController {
     );
 
     try {
-      auth.signInWithCredential(credential);
+      final userCredentials = await auth.signInWithCredential(credential);
+      if(userCredentials.user!.email !=null ) {
+        await createUser(UserModel(id: userCredentials.user!.uid, email: userCredentials.user!.email!, userName: userCredentials.user!.displayName!));
+      }
     } catch (e) {
       Get.snackbar(
         "About Google Authentication",
@@ -124,7 +128,10 @@ class AuthController extends GetxController {
       final userData = await FacebookAuth.instance.getUserData();
       final credential = FacebookAuthProvider.credential(
           facebookLoginResult.accessToken!.token);
-      await auth.signInWithCredential(credential);
+      final userCredential = await auth.signInWithCredential(credential);
+      if(userCredential.user!.email != null) {
+        createUser(UserModel(id: userCredential.user!.uid, email: userCredential.user!.email!, userName: userCredential.user!.displayName!));
+      }
     } catch (e) {
       Get.snackbar(
         "About Facebook Authentication",

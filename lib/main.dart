@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gfg_project/routes/routes.dart';
 import 'package:gfg_project/screens/login_screen.dart';
 import 'package:gfg_project/screens/login_screen_main.dart';
 import 'package:gfg_project/screens/onboarding_screen.dart';
@@ -16,10 +17,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        home: LoginScreenMain(),
-        getPages: [
-
-        ],
+      defaultTransition: Transition.fadeIn,
+        initialRoute: RoutesClass.loginScreen,
+        getPages: RoutesClass.routes,
     );
   }
 }

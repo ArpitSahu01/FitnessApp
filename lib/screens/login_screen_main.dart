@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:gfg_project/routes/routes.dart';
 import 'package:gfg_project/screens/signUp_screen.dart';
 import 'package:gfg_project/utils/app_utils.dart';
 import 'package:gfg_project/utils/extensions.dart';
@@ -93,10 +95,15 @@ class _LoginScreenMainState extends State<LoginScreenMain> {
                       fontSize: 10.0.sp,
                       color: LightBlackColor.withOpacity(0.6),
                     ),),
-                    Text(" Register",style: kPoppinsMedium.copyWith(
-                      fontSize: 10.0.sp,
-                      color: gradientColorDark,
-                    ),),
+                    GestureDetector(
+                      onTap: (){
+                        Get.toNamed(RoutesClass.signUpScreen);
+                      },
+                      child: Text(" Register",style: kPoppinsMedium.copyWith(
+                        fontSize: 10.0.sp,
+                        color: gradientColorDark,
+                      ),),
+                    ),
                   ],)
 
               ],

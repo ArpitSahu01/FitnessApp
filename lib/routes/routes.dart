@@ -20,7 +20,7 @@ class RoutesClass{
   static String getSignUpScreen() => signUpScreen;
 
 
-  List<GetPage> routes = [
+  static List<GetPage> routes = [
     GetPage(name: home, page: ()=> const HomeScreen(),),
     GetPage(name: splashScreen, page: ()=>const SplashScreen()),
     GetPage(name: loginScreen, page: ()=> const LoginScreenMain()),

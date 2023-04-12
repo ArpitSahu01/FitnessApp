@@ -163,4 +163,24 @@ class AuthController extends GetxController {
               snackPosition: SnackPosition.BOTTOM),
         );
   }
-}
+
+  // Fetching details of all a particular user
+  Future<UserModel> getUserDetails() async{
+      final snapshot = await firestore.collection("Users").where(
+          "email", isEqualTo: _user.value!.email).get();
+      final userData = snapshot.docs
+          .map((e) => UserModel.fromSnapshot(e))
+          .single;
+      return userData;
+    }
+
+    // Fetching details of all the users
+
+  Future<List<UserModel>> allUser() async{
+    final snapshot = await firestore.collection("Users").get();
+    final userData = snapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList();
+    return userData;
+  }
+
+  }
+

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:gfg_project/controllers/auth_controller.dart';
 import 'package:gfg_project/utils/app_utils.dart';
 import 'package:gfg_project/utils/extensions.dart';
@@ -15,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String userName = "";
   int currentScreen = 0;
+  final getStorage = GetStorage();
 
   @override
   void initState() {
@@ -61,6 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ElevatedButton(onPressed: (){
                 AuthController.instance.signOut();
               }, child: Text("LogOut")),
+              ElevatedButton(onPressed: () async{
+                await getStorage.remove("isFirstAuth");
+              }, child: Text("Reset OnBoardingScreen")),
             ],
           ),
         ),

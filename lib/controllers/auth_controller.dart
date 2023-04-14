@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:gfg_project/models/user_model.dart';
 import 'package:gfg_project/routes/routes.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthController extends GetxController {
+  final getStorage = GetStorage();
   Rx<bool> isLoading = false.obs;
 
   // making authcontroller globally accessible
@@ -29,9 +31,13 @@ class AuthController extends GetxController {
 
   _initialScreen(User? user) {
     if (user == null) {
-      Get.offAllNamed(RoutesClass.getLoginScreen());
+      if(getStorage.read("isFirstAuth" )== null){
+        Get.offAllNamed(RoutesClass.getOnBoardingScreen());
+      }else{
+        Get.offAllNamed(RoutesClass.getLoginScreen());
+      }
     } else {
-      Get.offAllNamed(RoutesClass.getProfileScreen());
+      Get.offAllNamed(RoutesClass.getHomeRoute());
     }
   }
 

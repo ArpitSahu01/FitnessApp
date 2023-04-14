@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:get/get.dart';
+import 'package:gfg_project/routes/routes.dart';
 import 'package:gfg_project/utils/extensions.dart';
 import 'package:gfg_project/utils/app_utils.dart';
 
@@ -11,6 +14,7 @@ class OnBoaridngScreen extends StatefulWidget {
 
 class _OnBoaridngScreenState extends State<OnBoaridngScreen> {
   late PageController _pageController;
+  final getStorage = GetStorage();
 
   var _pageIndex = 0;
   @override
@@ -83,6 +87,10 @@ class _OnBoaridngScreenState extends State<OnBoaridngScreen> {
                         _pageController.nextPage(
                             duration: Duration(milliseconds: 300),
                             curve: Curves.ease);
+                        if(_pageIndex == 3){
+                          getStorage.write("isFirstAuth", "Yes");
+                          Get.offAllNamed(RoutesClass.loginScreen);
+                        }
                       },
                     ),
                   ),

@@ -24,6 +24,7 @@ class RoutesClass{
   static String getSignUpScreen() => signUpScreen;
   static String getUserDataScreen() => userDataScreen;
   static String getProfileScreen() => profileScreen;
+  static String getOnBoardingScreen() => onBoardingScreen;
 
 
   static List<GetPage> routes = [
@@ -33,7 +34,8 @@ class RoutesClass{
     GetPage(name: signUpScreen, page: ()=> const SignUpScreen()),
     GetPage(name: onBoardingScreen, page: ()=> const OnBoaridngScreen()),
     GetPage(name: userDataScreen, page: ()=>const UserDataScreen()),
-    GetPage(name: profileScreen, page: ()=> const ProfileScreen())
+    GetPage(name: profileScreen, page: ()=> const ProfileScreen()),
+    GetPage(name: onBoardingScreen, page: ()=> const OnBoaridngScreen()),
   ];
 
 

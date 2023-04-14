@@ -38,7 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const Spacer(flex: 2,),
                   ],
                 ),
-                SizedBox(height: 4.0.hp,),
+                SizedBox(height: 2.0.hp,),
                 // profile edit
                 Row(
                   children: [

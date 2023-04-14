@@ -61,7 +61,7 @@ class _OnBoaridngScreenState extends State<OnBoaridngScreen> {
                     child: dotIndicator(isActive: index == _pageIndex,),
                   ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Container(
                     height: 60,
                     width: 60,

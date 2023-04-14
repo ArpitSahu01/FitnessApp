@@ -31,7 +31,7 @@ class AuthController extends GetxController {
     if (user == null) {
       Get.offAllNamed(RoutesClass.getLoginScreen());
     } else {
-      Get.offAllNamed(RoutesClass.getUserDataScreen());
+      Get.offAllNamed(RoutesClass.getProfileScreen());
     }
   }
 

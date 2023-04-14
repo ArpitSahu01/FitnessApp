@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gfg_project/controllers/auth_controller.dart';
 import 'package:gfg_project/utils/app_utils.dart';
 import 'package:gfg_project/utils/extensions.dart';
@@ -13,6 +14,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   String userName = "";
+  int currentScreen = 0;
+
   @override
   void initState() {
     AuthController.instance.getUserDetails().then((user) => setState((){userName = user.userName;}));
@@ -21,6 +24,33 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: currentScreen,
+        showUnselectedLabels: true,
+        unselectedItemColor: Colors.black,
+        selectedItemColor: Colors.black,
+        onTap: (value){
+          setState(() {
+            currentScreen = value;
+          });
+        },
+        
+        items: [
+          BottomNavigationBarItem(icon: SvgPicture.asset("assets/bottomNavigationBarIcon/home_icon.svg",color: currentScreen == 0 ? null: Colors.black,),label: "Home",),
+          BottomNavigationBarItem(icon: SvgPicture.asset("assets/bottomNavigationBarIcon/trainning_icon.svg",color: currentScreen == 1 ? null: Colors.black,),label: "Training",),
+          BottomNavigationBarItem(icon: SvgPicture.asset("assets/bottomNavigationBarIcon/meal_icon.svg",color: currentScreen == 2 ? null: Colors.black,),label: "Meal"),
+          BottomNavigationBarItem(icon: SvgPicture.asset("assets/bottomNavigationBarIcon/profile_icon.svg",color: currentScreen == 3 ? null: Colors.black,),label: "Profile"),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.black,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(1.0.wp),),padding: EdgeInsets.all(4.0.wp)),
+        onPressed: (){},
+        child: Icon(Icons.more_horiz,color: Colors.white,),
+      ),
       body: SafeArea(
         child: Center(
           child: Column(

@@ -16,7 +16,7 @@ class AuthController extends GetxController {
   static AuthController instance = Get.find();
 
   late Rx<User?> _user;
-  late UserModel userModel;
+   UserModel? userModel;
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -238,5 +238,15 @@ class AuthController extends GetxController {
         height: double.parse(height)));
 
     return response;
+  }
+
+  Future<double> getBMI() async{
+    userModel = await getUserDetails();
+    double height = userModel?.height as double;
+    double weight = userModel?.weight as double;
+    double bmi = height/(weight * weight);
+    return bmi;
+    return 0.0;
+
   }
 }

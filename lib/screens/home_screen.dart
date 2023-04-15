@@ -18,15 +18,25 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   String userName = "";
+  String bmi = "";
   int currentScreen = 0;
   final getStorage = GetStorage();
 
   @override
   void initState() {
     AuthController.instance.getUserDetails().then((user)  {
-      setState((){userName = user.userName;});
+      setState((){
+        userName = user.userName;
+        AuthController.instance.getBMI().then((value) =>
+        setState((){
+          bmi = value.toString();
+          print(bmi);
+        })
+        );
+      });
       DataDisplayController(user);
     });
+
     super.initState();
   }
   @override
@@ -85,6 +95,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Remainder section
                 SizedBox(height: 2.0.hp,),
                 const RemainderSection(),
+
+                // Statistics section
+                SizedBox(height: 2.0.hp,),
+                StatisticsSection(bmi: bmi,),
 
                 // Logout and OnBoarding Screen reset Buttons
 
@@ -156,3 +170,46 @@ class RemainderSection extends StatelessWidget {
     );
   }
 }
+
+
+class StatisticsSection extends StatelessWidget {
+  String bmi;
+   StatisticsSection({required this.bmi,Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Statistics",style: kPoppinsSemiBold.copyWith(fontSize: 6.0.wp,fontWeight: FontWeight.w700),),
+        Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(2.0.wp),
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Column(
+                children: [
+                  SvgPicture.asset("assets/otherScreens/homeShoe.svg"),
+                  Text("Calories burnt",style: kPoppinsSemiBold.copyWith(fontSize: 4.0.wp,fontWeight: FontWeight.w700),),
+                  Text("18,249",style: kPoppinsSemiBold.copyWith(fontSize: 6.0.wp,fontWeight: FontWeight.w700),),
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(2.0.wp),
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Column(
+                children: [
+                  SvgPicture.asset("assets/otherScreens/homeScale.svg"),
+                  Text("BMI",style: kPoppinsSemiBold.copyWith(fontSize: 4.0.wp,fontWeight: FontWeight.w700),),
+                  Text(bmi,style: kPoppinsSemiBold.copyWith(fontSize: 6.0.wp,fontWeight: FontWeight.w700),),
+                ],
+              ),
+            ),
+          ],
+        )
+      ],
+    );
+  }
+}
+

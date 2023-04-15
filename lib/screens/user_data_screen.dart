@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:gfg_project/controllers/auth_controller.dart';
 import 'package:gfg_project/routes/routes.dart';
 import 'package:gfg_project/utils/extensions.dart';
@@ -20,10 +21,12 @@ class UserDataScreen extends StatefulWidget {
 }
 
 class _UserDataScreenState extends State<UserDataScreen> {
+  final getStorage = GetStorage();
   bool isLoading = false;
   String _selectedValue = "Male";
-  final _passwordEditingController = TextEditingController();
-  final _emailController = TextEditingController();
+  final _genderController = TextEditingController();
+  final _weightController = TextEditingController();
+  final _heightController = TextEditingController();
   final _dateController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -93,7 +96,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
               Container(
                 height: 12.0.wp,
                 width: 80.0.wp,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: textFieldColor,
                 ),
                 child: Row(
@@ -101,7 +104,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                     SizedBox(
                       width: 4.0.wp,
                     ),
-                    Icon(
+                    const Icon(
                       Icons.supervisor_account_sharp,
                       color: textFieldIconColor,
                     ),
@@ -112,16 +115,22 @@ class _UserDataScreenState extends State<UserDataScreen> {
                       width: 65.0.wp,
                       padding: EdgeInsets.only(bottom: 0.5.hp),
                       child: DropdownButtonFormField(
-                        hint: Text("Choose Gender"),
-                        items: _genderList
-                            .map((e) => DropdownMenuItem(
-                                  child: Text(e),
-                                  value: e,
-                                ))
-                            .toList(),
-                        onChanged: (value) {},
-                        icon: Icon(Icons.expand_more),
-                        decoration: InputDecoration(
+
+                        validator: (val){
+                          if(val==null ){
+                            return "Please some gender";
+                          }
+                          return null;
+                        },
+                        hint: const Text("Choose Gender"),
+                        items: _genderList.map((e) => DropdownMenuItem(child: Text(e), value: e,)).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _genderController.text = value.toString();
+                          });
+                        },
+                        icon: const Icon(Icons.expand_more),
+                        decoration: const InputDecoration(
                           focusedBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,
                           disabledBorder: InputBorder.none,
@@ -138,7 +147,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
               Container(
                   height: 12.0.wp,
                   width: 80.0.wp,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: textFieldColor,
                   ),
                   child: GestureDetector(
@@ -147,20 +156,25 @@ class _UserDataScreenState extends State<UserDataScreen> {
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate: DateTime(1950),
-                          lastDate: DateTime(2100),
+                          lastDate: DateTime.now(),
                           initialEntryMode: DatePickerEntryMode.calendarOnly,
                       );
                       if (pickedDate != null) {
                         setState(() {
                           _dateController.text = DateFormat("d/M/y")
-                              .format(pickedDate as DateTime);
+                              .format(pickedDate);
                         });
                       }
                     },
                     child: TextFormField(
-                      controller: _dateController,
-                      keyboardType: TextInputType.datetime,
-                      decoration: InputDecoration(
+                       controller: _dateController,
+                      validator: (value){
+                         if(value == null){
+                           return "Enter correct Birth Date";
+                         }
+                         return null;
+                      },
+                      decoration: const InputDecoration(
                           hintText: "Choose Birth Date",
                           hintStyle: TextStyle(color: textFieldIconColor),
                           prefixIcon: Icon(
@@ -184,6 +198,18 @@ class _UserDataScreenState extends State<UserDataScreen> {
                     SizedBox(
                       width: 64.0.wp,
                       child: TextFormField(
+                        validator: (value){
+                          if(value == null){
+                            return "Enter correct weight";
+                          }
+                          if(double.tryParse(value)== null){
+                            return "Enter correct weight";
+                          }
+                          return null;
+                        },
+                        onSaved: (value){
+                            _weightController.text = value as String;
+                        },
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           filled: true,
@@ -194,7 +220,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                           focusedErrorBorder: InputBorder.none,
                           errorBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
-                          prefixIcon: Icon(
+                          prefixIcon: const Icon(
                             Icons.monitor_weight,
                             color: textFieldIconColor,
                           ),
@@ -212,7 +238,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                       width: 12.0.wp,
                       height: 12.0.wp,
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
@@ -241,6 +267,18 @@ class _UserDataScreenState extends State<UserDataScreen> {
                     SizedBox(
                       width: 64.0.wp,
                       child: TextFormField(
+                        validator: (value){
+                          if(value == null){
+                            return "Enter correct weight";
+                          }
+                          if(double.tryParse(value)== null){
+                            return "Enter correct weight";
+                          }
+                          return null;
+                        },
+                        onSaved: (value){
+                            _heightController.text = value as String;
+                        },
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           filled: true,
@@ -251,7 +289,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                           focusedErrorBorder: InputBorder.none,
                           errorBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
-                          prefixIcon: Icon(
+                          prefixIcon: const Icon(
                             Icons.swap_vert,
                             color: textFieldIconColor,
                           ),
@@ -269,7 +307,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                       width: 12.0.wp,
                       height: 12.0.wp,
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
@@ -295,7 +333,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                   ? CircularProgressIndicator()
                   : SignInButton(
                       title: "Next",
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
                           colors: [
@@ -304,15 +342,29 @@ class _UserDataScreenState extends State<UserDataScreen> {
                           ]),
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
-                          final email = _emailController.text.trim();
-                          final password =
-                              _passwordEditingController.text.trim();
-                          setState(() {
-                            isLoading = true;
-                          });
+
+                            _formKey.currentState!.save();
+                            final gender = _genderController.text;
+                            final birthDate = _dateController.text;
+                            final weight = _weightController.text;
+                            final height = _heightController.text;
+                            print(gender);
+                            print(birthDate);
+                            print(weight);
+                            print(height);
+                            setState(() {
+                              isLoading = true;
+                            });
+                            await getStorage.write("userPersonalData", {
+                              "gender" : gender,
+                              "birthDate" : birthDate,
+                              "weight" : double.parse(weight),
+                              "height" : double.parse(height),
+                            });
                           setState(() {
                             isLoading = false;
                           });
+                          Get.offAllNamed(RoutesClass.home);
                         }
                       },
                     ),

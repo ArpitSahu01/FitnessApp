@@ -37,7 +37,11 @@ class AuthController extends GetxController {
         Get.offAllNamed(RoutesClass.getLoginScreen());
       }
     } else {
-      Get.offAllNamed(RoutesClass.getHomeRoute());
+      if(getStorage.read("userPersonalData") == null){
+        Get.offAllNamed(RoutesClass.getUserDataScreen());
+      }else{
+        Get.offAllNamed(RoutesClass.getHomeRoute());
+      }
     }
   }
 
@@ -91,6 +95,7 @@ class AuthController extends GetxController {
   }
 
   signOut() async {
+    getStorage.remove("userPersonalData");
     await auth.signOut();
     await GoogleSignIn().signOut();
   }

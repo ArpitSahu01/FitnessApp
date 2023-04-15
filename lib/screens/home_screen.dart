@@ -6,6 +6,7 @@ import 'package:gfg_project/controllers/data_display_controller.dart';
 import 'package:gfg_project/models/user_model.dart';
 import 'package:gfg_project/utils/app_utils.dart';
 import 'package:gfg_project/utils/extensions.dart';
+import 'package:gfg_project/widgets/carousel_slider_widget.dart';
 
 class HomeScreen extends StatefulWidget {
    const HomeScreen({Key? key}) : super(key: key);
@@ -51,22 +52,107 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("HomeScreen",style: kPoppinsSemiBold.copyWith(fontSize: 10.0.wp),),
-              Text("Hello! $userName"),
-              ElevatedButton(onPressed: (){
-                AuthController.instance.signOut();
-              }, child: Text("LogOut")),
-              ElevatedButton(onPressed: () async{
-                await getStorage.remove("isFirstAuth");
-              }, child: Text("Reset OnBoardingScreen")),
-            ],
+        child: Padding(
+          padding:  EdgeInsets.symmetric(horizontal: 5.0.wp),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 4.0.hp,),
+
+                // Profile Information
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CircleAvatar(backgroundImage: AssetImage("assets/otherScreens/homeProfile.png"),radius: 10.0.wp,),
+                    SizedBox(width: 2.0.wp,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Welcome Back,",style: kPoppinsMedium.copyWith(color: textFieldIconColor,fontSize: 15.0.sp),),
+                        Text(userName,style: kPoppinsBold.copyWith(color: TextBlackColor,fontSize: 20.0.sp,fontWeight: FontWeight.w900),),
+                      ]
+                    ),
+                    const Spacer(),
+                    SvgPicture.asset("assets/otherScreens/homeNotification.svg"),
+                  ],
+                ),
+
+                // Quotes section
+                SizedBox(height: 2.0.hp,),
+                const CarouselSliderWidget(),
+
+                // Remainder section
+                SizedBox(height: 2.0.hp,),
+                const RemainderSection(),
+
+                // Logout and OnBoarding Screen reset Buttons
+
+                // ElevatedButton(onPressed: (){
+                //   AuthController.instance.signOut();
+                // }, child: Text("LogOut")),
+                // ElevatedButton(onPressed: () async{
+                //   await getStorage.remove("isFirstAuth");
+                // }, child: Text("Reset OnBoardingScreen")),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+}
+
+
+class RemainderSection extends StatelessWidget {
+  const RemainderSection({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Remainder",style: kPoppinsSemiBold.copyWith(fontSize: 6.0.wp,fontWeight: FontWeight.w700),),
+        Card(
+          child: Padding(
+            padding:  EdgeInsets.symmetric(horizontal: 5.0.wp,vertical: 4.0.wp),
+            child: Row(
+            children: [
+              const CircleAvatar(backgroundColor: Color(0xffDFE6FF),),
+              SizedBox(width: 2.0.wp,),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Drink 300ml Water",style: kPoppinsSemiBold.copyWith(color: TextBlackColor),),
+                  Text("10 minutes ago",style: kPoppinsSemiBold.copyWith(color: TextBlackColor.withOpacity(0.4)),),
+                ],
+              ),
+              const Spacer(),
+              const Icon(Icons.more_vert),
+            ],
+        ),
+          ),),
+
+        Card(
+          child: Padding(
+            padding:  EdgeInsets.symmetric(horizontal: 5.0.wp,vertical: 4.0.wp),
+            child: Row(
+              children: [
+                const CircleAvatar(backgroundColor: Color(0xffF0DEF9),),
+                SizedBox(width: 2.0.wp,),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Eat Snacks",style: kPoppinsSemiBold.copyWith(color: TextBlackColor),),
+                    Text("upcoming",style: kPoppinsSemiBold.copyWith(color: TextBlackColor.withOpacity(0.4)),),
+                  ],
+                ),
+                const Spacer(),
+                const Icon(Icons.more_vert),
+              ],
+            ),
+          ),),
+      ],
     );
   }
 }

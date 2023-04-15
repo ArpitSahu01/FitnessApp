@@ -45,14 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: SvgPicture.asset("assets/bottomNavigationBarIcon/profile_icon.svg",color: currentScreen == 3 ? null: Colors.black,),label: "Profile"),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.black,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(1.0.wp),),padding: EdgeInsets.all(4.0.wp)),
-        onPressed: (){},
-        child: Icon(Icons.more_horiz,color: Colors.white,),
-      ),
       body: SafeArea(
         child: Center(
           child: Column(

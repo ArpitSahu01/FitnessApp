@@ -361,7 +361,15 @@ class _UserDataScreenState extends State<UserDataScreen> {
                               "weight" : double.parse(weight),
                               "height" : double.parse(height),
                             });
-                          setState(() {
+
+                            try{
+                             await AuthController.instance.storeUserDetails(weight, height, gender, birthDate);
+                            }catch (e){
+                              getStorage.remove("userPersonalData");
+                              Get.snackbar("Something went wrong", "data not stored",messageText: Text(e.toString()));
+                            }
+
+                            setState(() {
                             isLoading = false;
                           });
                           Get.offAllNamed(RoutesClass.home);

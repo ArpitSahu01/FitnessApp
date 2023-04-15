@@ -16,6 +16,7 @@ class AuthController extends GetxController {
   static AuthController instance = Get.find();
 
   late Rx<User?> _user;
+  late UserModel userModel;
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -31,15 +32,15 @@ class AuthController extends GetxController {
 
   _initialScreen(User? user) {
     if (user == null) {
-      if(getStorage.read("isFirstAuth" )== null){
+      if (getStorage.read("isFirstAuth") == null) {
         Get.offAllNamed(RoutesClass.getOnBoardingScreen());
-      }else{
+      } else {
         Get.offAllNamed(RoutesClass.getLoginScreen());
       }
     } else {
-      if(getStorage.read("userPersonalData") == null){
+      if (getStorage.read("userPersonalData") == null) {
         Get.offAllNamed(RoutesClass.getUserDataScreen());
-      }else{
+      } else {
         Get.offAllNamed(RoutesClass.getHomeRoute());
       }
     }
@@ -47,9 +48,18 @@ class AuthController extends GetxController {
 
   register(String email, String password, String userName) async {
     try {
-      final userCredentials = await auth.createUserWithEmailAndPassword(email: email, password: password);
-      if(userCredentials.user != null) {
-        await createUser(UserModel(email: userCredentials.user!.email!, userName: userName,id: userCredentials.user!.uid));
+      final userCredentials = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      if (userCredentials.user != null) {
+        await createUser(UserModel(
+          email: userCredentials.user!.email!,
+          userName: userName,
+          id: userCredentials.user!.uid,
+          weight: null,
+          height: null,
+          date: null,
+          gender: null,
+        ));
       }
     } catch (e) {
       Get.snackbar(
@@ -110,8 +120,16 @@ class AuthController extends GetxController {
 
     try {
       final userCredentials = await auth.signInWithCredential(credential);
-      if(userCredentials.user!.email !=null ) {
-        await createUser(UserModel(id: userCredentials.user!.uid, email: userCredentials.user!.email!, userName: userCredentials.user!.displayName!));
+      if (userCredentials.user!.email != null) {
+        await createUser(UserModel(
+          id: userCredentials.user!.uid,
+          email: userCredentials.user!.email!,
+          userName: userCredentials.user!.displayName!,
+          gender: null,
+          date: null,
+          weight: null,
+          height: null,
+        ));
       }
     } catch (e) {
       Get.snackbar(
@@ -140,8 +158,16 @@ class AuthController extends GetxController {
       final credential = FacebookAuthProvider.credential(
           facebookLoginResult.accessToken!.token);
       final userCredential = await auth.signInWithCredential(credential);
-      if(userCredential.user!.email != null) {
-        createUser(UserModel(id: userCredential.user!.uid, email: userCredential.user!.email!, userName: userCredential.user!.displayName!));
+      if (userCredential.user!.email != null) {
+        createUser(UserModel(
+          id: userCredential.user!.uid,
+          email: userCredential.user!.email!,
+          userName: userCredential.user!.displayName!,
+          height: null,
+          weight: null,
+          date: null,
+          gender: null,
+        ));
       }
     } catch (e) {
       Get.snackbar(
@@ -163,35 +189,54 @@ class AuthController extends GetxController {
     }
   }
 
-
   createUser(UserModel user) async {
     await firestore
         .collection("Users")
         .doc(_user.value!.uid)
         .set(user.toJson())
         .whenComplete(
-          () => Get.snackbar("Success", "Your account has been created",
-              snackPosition: SnackPosition.BOTTOM),
+          () => print("created account successfully")
         );
   }
 
   // Fetching details of all a particular user
-  Future<UserModel> getUserDetails() async{
-      final snapshot = await firestore.collection("Users").where(
-          "email", isEqualTo: _user.value!.email).get();
-      final userData = snapshot.docs
-          .map((e) => UserModel.fromSnapshot(e))
-          .single;
-      return userData;
-    }
-
-    // Fetching details of all the users
-
-  Future<List<UserModel>> allUser() async{
-    final snapshot = await firestore.collection("Users").get();
-    final userData = snapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList();
+  Future<UserModel> getUserDetails() async {
+    final snapshot = await firestore
+        .collection("Users")
+        .where("email", isEqualTo: _user.value!.email)
+        .get();
+    final userData = snapshot.docs.map((e) => UserModel.fromSnapshot(e)).single;
     return userData;
   }
 
+  // Fetching details of all the users
+
+  Future<List<UserModel>> allUser() async {
+    final snapshot = await firestore.collection("Users").get();
+    final userData =
+        snapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList();
+    return userData;
   }
 
+  storeUserDetails(
+      String weight, String height, String gender, String birthDate) async {
+    final response =
+        await firestore.collection("Users").doc(_user.value!.uid).set({
+      "weight": double.parse(weight),
+      "height": double.parse(height),
+      "gender": gender,
+      "birthDate": birthDate,
+    }, SetOptions(merge: true));
+
+    AuthController.instance.createUser(UserModel(
+        id: _user.value!.uid,
+        email: _user.value!.email!,
+        userName: _user.value!.displayName!,
+        gender: gender,
+        date: birthDate,
+        weight: double.parse(weight),
+        height: double.parse(height)));
+
+    return response;
+  }
+}

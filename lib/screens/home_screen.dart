@@ -4,6 +4,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:gfg_project/controllers/auth_controller.dart';
 import 'package:gfg_project/controllers/data_display_controller.dart';
 import 'package:gfg_project/models/user_model.dart';
+import 'package:get/get.dart';
+import 'package:gfg_project/routes/routes.dart';
 import 'package:gfg_project/utils/app_utils.dart';
 import 'package:gfg_project/utils/extensions.dart';
 import 'package:gfg_project/widgets/carousel_slider_widget.dart';
@@ -236,25 +238,30 @@ class WorkoutSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Workout Plan",style: kPoppinsSemiBold.copyWith(fontSize: 6.0.wp,fontWeight: FontWeight.w700),),
-        Card(
-          child: Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 5.0.wp,vertical: 4.0.wp),
-            child: Row(
-              children: [
-                 CircleAvatar(backgroundColor: Color(0xffDFE6FF),child: SvgPicture.asset("assets/otherScreens/homeWorkout.svg")),
-                SizedBox(width: 2.0.wp,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Friday",style: kPoppinsSemiBold.copyWith(color: TextBlackColor),),
-                    Text("Lower Body Strength",style: kPoppinsSemiBold.copyWith(color: TextBlackColor.withOpacity(0.4)),),
-                  ],
-                ),
-                const Spacer(),
-                const Icon(Icons.more_vert),
-              ],
-            ),
-          ),),
+        GestureDetector(
+          onTap: (){
+            Get.toNamed(RoutesClass.getWorkoutScreen());
+          },
+          child: Card(
+            child: Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 5.0.wp,vertical: 4.0.wp),
+              child: Row(
+                children: [
+                   CircleAvatar(backgroundColor: Color(0xffDFE6FF),child: SvgPicture.asset("assets/otherScreens/homeWorkout.svg")),
+                  SizedBox(width: 2.0.wp,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Friday",style: kPoppinsSemiBold.copyWith(color: TextBlackColor),),
+                      Text("Lower Body Strength",style: kPoppinsSemiBold.copyWith(color: TextBlackColor.withOpacity(0.4)),),
+                    ],
+                  ),
+                  const Spacer(),
+                  const Icon(Icons.more_vert),
+                ],
+              ),
+            ),),
+        ),
       ],
     );
   }

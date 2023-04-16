@@ -61,10 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: SvgPicture.asset("assets/bottomNavigationBarIcon/profile_icon.svg",color: currentScreen == 3 ? null: Colors.black,),label: "Profile"),
         ],
       ),
-      body: SafeArea(
-        child: Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 5.0.wp),
-          child: SingleChildScrollView(
+      body: SingleChildScrollView(
+         child: SafeArea(
+          child: Padding(
+            padding:  EdgeInsets.symmetric(horizontal: 5.0.wp),
             child: Column(
               children: [
                 SizedBox(height: 4.0.hp,),
@@ -99,6 +99,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Statistics section
                 SizedBox(height: 2.0.hp,),
                 StatisticsSection(bmi: bmi,),
+
+                // workout plan
+                SizedBox(height: 2.0.hp,),
+                WorkoutSection(),
 
                 // Logout and OnBoarding Screen reset Buttons
 
@@ -183,10 +187,13 @@ class StatisticsSection extends StatelessWidget {
       children: [
         Text("Statistics",style: kPoppinsSemiBold.copyWith(fontSize: 6.0.wp,fontWeight: FontWeight.w700),),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(2.0.wp),
-              decoration: BoxDecoration(color: Colors.blue),
+              width: 35.0.wp,
+              height: 35.0.wp,
+              padding: EdgeInsets.only(top: 2.0.hp),
+              decoration: BoxDecoration(color: Colors.white),
               child: Column(
                 children: [
                   SvgPicture.asset("assets/otherScreens/homeShoe.svg"),
@@ -196,13 +203,15 @@ class StatisticsSection extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(2.0.wp),
-              decoration: BoxDecoration(color: Colors.blue),
+              width: 35.0.wp,
+              height: 35.0.wp,
+              padding: EdgeInsets.only(top: 2.0.hp),
+              decoration: BoxDecoration(color: Colors.white),
               child: Column(
                 children: [
                   SvgPicture.asset("assets/otherScreens/homeScale.svg"),
                   Text("BMI",style: kPoppinsSemiBold.copyWith(fontSize: 4.0.wp,fontWeight: FontWeight.w700),),
-                  Text(bmi,style: kPoppinsSemiBold.copyWith(fontSize: 6.0.wp,fontWeight: FontWeight.w700),),
+                  Text("24.5",style: kPoppinsSemiBold.copyWith(fontSize: 6.0.wp,fontWeight: FontWeight.w700),),
                 ],
               ),
             ),
@@ -213,3 +222,35 @@ class StatisticsSection extends StatelessWidget {
   }
 }
 
+class WorkoutSection extends StatelessWidget {
+  const WorkoutSection({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Workout Plan",style: kPoppinsSemiBold.copyWith(fontSize: 6.0.wp,fontWeight: FontWeight.w700),),
+        Card(
+          child: Padding(
+            padding:  EdgeInsets.symmetric(horizontal: 5.0.wp,vertical: 4.0.wp),
+            child: Row(
+              children: [
+                 CircleAvatar(backgroundColor: Color(0xffDFE6FF),child: SvgPicture.asset("assets/otherScreens/homeWorkout.svg")),
+                SizedBox(width: 2.0.wp,),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Friday",style: kPoppinsSemiBold.copyWith(color: TextBlackColor),),
+                    Text("Lower Body Strength",style: kPoppinsSemiBold.copyWith(color: TextBlackColor.withOpacity(0.4)),),
+                  ],
+                ),
+                const Spacer(),
+                const Icon(Icons.more_vert),
+              ],
+            ),
+          ),),
+      ],
+    );
+  }
+}

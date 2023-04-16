@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gfg_project/routes/routes.dart';
 import 'package:gfg_project/utils/app_utils.dart';
 import 'package:gfg_project/utils/extensions.dart';
 import 'package:gfg_project/widgets/profile_details.dart';
 import 'package:gfg_project/widgets/profile_items.dart';
+import 'package:get/get.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -46,22 +48,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const Spacer(),
                     Text("Stefani Wong",style: kPoppinsBold.copyWith(fontSize: 4.0.wp),),
                     const Spacer(flex: 5,),
-                    Container(
-                      width: 24.0.wp,
-                      height: 10.0.wp,
-                      alignment: Alignment.center,
-                      decoration:  BoxDecoration(
-                        gradient: const LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            gradientColorDark,
-                            gradientColorLight
-                          ]
+                    GestureDetector(
+                      onTap: (){
+                        Get.toNamed(RoutesClass.getEditProfileScreen());
+                      },
+                      child: Container(
+                        width: 24.0.wp,
+                        height: 10.0.wp,
+                        alignment: Alignment.center,
+                        decoration:  BoxDecoration(
+                          gradient: const LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              gradientColorDark,
+                              gradientColorLight
+                            ]
+                          ),
+                          borderRadius:BorderRadius.circular(10.0.wp)
                         ),
-                        borderRadius:BorderRadius.circular(10.0.wp)
+                        child: Text("Edit",style: kPoppinsSemiBold.copyWith(fontSize: 10.0.sp,color: Colors.white),),
                       ),
-                      child: Text("Edit",style: kPoppinsSemiBold.copyWith(fontSize: 10.0.sp,color: Colors.white),),
                     )
                   ],
                 ),

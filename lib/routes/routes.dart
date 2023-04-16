@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:gfg_project/screens/edit_profile_screen.dart';
 import 'package:gfg_project/screens/home_screen.dart';
 import 'package:gfg_project/screens/login_screen_main.dart';
 import 'package:gfg_project/screens/onboarding_screen.dart';
@@ -19,6 +20,7 @@ class RoutesClass{
   static String userDataScreen = "/user_data_screen";
   static String profileScreen = "/profile_screen";
   static String workoutScreen = "/workoutScreen";
+  static String editProfileScreen = "/edit_profile_screen";
 
   static String getHomeRoute()=> home;
   static String getSplashScreen() => splashScreen;
@@ -28,6 +30,7 @@ class RoutesClass{
   static String getProfileScreen() => profileScreen;
   static String getOnBoardingScreen() => onBoardingScreen;
   static String getWorkoutScreen() => workoutScreen;
+  static String getEditProfileScreen()=> editProfileScreen;
 
 
   static List<GetPage> routes = [
@@ -40,6 +43,7 @@ class RoutesClass{
     GetPage(name: profileScreen, page: ()=> const ProfileScreen()),
     GetPage(name: onBoardingScreen, page: ()=> const OnBoaridngScreen()),
     GetPage(name: workoutScreen, page: ()=>const WorkoutScreen()),
+    GetPage(name: editProfileScreen, page: ()=>const EditProfileScreen()),
   ];
 
 

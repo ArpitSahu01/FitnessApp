@@ -6,6 +6,7 @@ import 'package:gfg_project/controllers/data_display_controller.dart';
 import 'package:gfg_project/models/user_model.dart';
 import 'package:get/get.dart';
 import 'package:gfg_project/routes/routes.dart';
+import 'package:gfg_project/screens/profile_screen.dart';
 import 'package:gfg_project/utils/app_utils.dart';
 import 'package:gfg_project/utils/extensions.dart';
 import 'package:gfg_project/widgets/carousel_slider_widget.dart';
@@ -64,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: SvgPicture.asset("assets/bottomNavigationBarIcon/profile_icon.svg",color: currentScreen == 3 ? null: Colors.black,),label: "Profile"),
         ],
       ),
-      body: SingleChildScrollView(
+      body: currentScreen == 3? ProfileScreen():SingleChildScrollView(
          child: SafeArea(
           child: Padding(
             padding:  EdgeInsets.symmetric(horizontal: 5.0.wp),

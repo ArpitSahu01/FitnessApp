@@ -7,6 +7,7 @@ import 'package:gfg_project/models/user_model.dart';
 import 'package:gfg_project/utils/app_utils.dart';
 import 'package:gfg_project/utils/extensions.dart';
 import 'package:gfg_project/widgets/carousel_slider_widget.dart';
+import 'package:gfg_project/widgets/community_item.dart';
 
 class HomeScreen extends StatefulWidget {
    const HomeScreen({Key? key}) : super(key: key);
@@ -103,6 +104,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 // workout plan
                 SizedBox(height: 2.0.hp,),
                 WorkoutSection(),
+
+                //fitness community
+                SizedBox(height: 2.0.hp,),
+                FitnessSection(),
 
                 // Logout and OnBoarding Screen reset Buttons
 
@@ -250,6 +255,24 @@ class WorkoutSection extends StatelessWidget {
               ],
             ),
           ),),
+      ],
+    );
+  }
+}
+
+
+class FitnessSection extends StatelessWidget {
+  const FitnessSection({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Fitness Community",style: kPoppinsSemiBold.copyWith(fontSize: 6.0.wp,fontWeight: FontWeight.w700),),
+        CommunityItem(imageUrl: "assets/otherScreens/homeFitness1.png",text: "For trainnig long head of bisep curl use inner grip, for shot head use wide grip.",),
+        CommunityItem(imageUrl: "assets/otherScreens/homeFitness2.png",text: "Along with exercise nutrition is also a crucial part of our body. ",),
+
       ],
     );
   }

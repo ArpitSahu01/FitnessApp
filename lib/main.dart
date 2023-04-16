@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       defaultTransition: Transition.fadeIn,
         initialRoute: RoutesClass.splashScreen,
         getPages: RoutesClass.routes,

@@ -2,7 +2,7 @@
 
 Personalized Fitness plan and Progress Tracker App:
 
-This app is developed as a submission for the GFG Hackathon, with the goal of creating a personalized user diet plan and tracking user progress. The app provides a seamless onboarding experience and offers various features to help users achieve their health and fitness goals.
+This app is developed  with the goal of creating a personalized user diet plan and tracking user progress. The app provides a seamless onboarding experience and offers various features to help users achieve their health and fitness goals.
 
 
 
@@ -42,13 +42,11 @@ The app allows users to easily manage their profile information, such as updatin
 
 The app is developed using the latest front-end and back-end technologies, including:
 
-React Native for building a cross-platform mobile app with a smooth and responsive user interface.
+Flutter framework for building a cross-platform mobile app with a smooth and responsive user interface.
 
 Firebase for user authentication, real-time data updates, and cloud storage to securely store user data.
 
-Redux for state management, ensuring a centralized and efficient way to manage app data and user progress.
-
-Google Cloud for additional cloud-based services, such as serverless functions for backend processing and data analysis.
+Getx for state management, ensuring a centralized and efficient way to manage app data and user progress.
 
 
 
